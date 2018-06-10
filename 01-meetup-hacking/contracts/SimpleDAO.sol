@@ -21,7 +21,7 @@ contract SimpleDao{
     /*
     * A method invoked by the user to increase his contribution in the DAO
     */
-    function contribute() {
+    function contribute() payable public {
         userBalances[msg.sender] = userBalances[msg.sender] + msg.value;
     }
 
@@ -29,7 +29,7 @@ contract SimpleDao{
     /*
     * A method invoked by the user to withdraw all of his contributions
     */
-    function withdrawBalance() {
+    function withdrawBalance() public {
         uint amountToWithdraw = userBalances[msg.sender];
         if (msg.sender.call.value(amountToWithdraw)() == false) {
             throw;
