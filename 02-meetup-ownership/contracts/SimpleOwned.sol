@@ -12,5 +12,9 @@ contract SimpleOwned {
         owner = _owner;
     }
 
+    function protected() public view {
+        require(msg.sender == owner);
+    }
+
 
 }

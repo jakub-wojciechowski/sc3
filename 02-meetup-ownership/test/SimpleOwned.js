@@ -7,7 +7,7 @@ const should = require('chai')
 	.use(require('chai-bignumber')(BigNumber))
 	.should()
 
-contract('SimpleOwned', function ([owner]) {
+contract('SimpleOwned', function ([owner, other]) {
 	var simpleOwned;
 
 	before("deploy SimpleOwned", async function () {
@@ -19,6 +19,16 @@ contract('SimpleOwned', function ([owner]) {
 		await simpleOwned.setOwner(owner);
 
 		(await simpleOwned.owner()).should.be.equal(owner);
+	});
+
+
+	it("should not allow any other user to enter protected zone", async function () {
+		await simpleOwned.protected({from: other}).should.be.rejectedWith('revert');
+	});
+
+
+	it("should allow owner to enter the protected zone", async function () {
+		await simpleOwned.protected({from: owner});
 	});
 
 });
