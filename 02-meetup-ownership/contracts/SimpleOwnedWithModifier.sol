@@ -2,18 +2,13 @@ pragma solidity ^0.4.24;
 
 
 /*
- * A minimal implementation of a contract that could be owned
+ * A minimal implementation of contract that could be owned
  */
-contract SimpleOwned {
+contract SimpleOwnedWithModifier {
 
     address public owner;
 
-    constructor() {
-        owner = msg.sender;
-    }
-
     function setOwner(address _owner) public {
-        require(msg.sender == owner);
         owner = _owner;
     }
 

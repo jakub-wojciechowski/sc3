@@ -1,4 +1,4 @@
-var SimpleOwned = artifacts.require("SimpleOwned");
+var NaiveOwned = artifacts.require("NaiveOwned");
 
 const BigNumber = web3.BigNumber
 
@@ -7,15 +7,17 @@ const should = require('chai')
 	.use(require('chai-bignumber')(BigNumber))
 	.should()
 
-contract('SimpleOwned', function ([owner, other]) {
+contract('NaiveOwned', function ([owner, other]) {
 	var owned;
 
 	before("deploy SimpleOwned", async function () {
-		owned = await SimpleOwned.new();
+		owned = await NaiveOwned.new();
 	});
 
 
-	it("should initialize owner to the creator", async function () {
+	it("should set owner", async function () {
+		await owned.setOwner(owner);
+
 		(await owned.owner()).should.be.equal(owner);
 	});
 
@@ -30,14 +32,8 @@ contract('SimpleOwned', function ([owner, other]) {
 	});
 
 
-	it("should not allow any other user to take over the ownership", async function () {
-		await owned.setOwner(other, {from: other}).should.be.rejectedWith('revert');
-		await owned.protected({from: other}).should.be.rejectedWith('revert');
-	});
-
-
-	it("should allow the owner to transfer ownership", async function () {
-		await owned.setOwner(other, {from: owner});
+	it("warning! it allows to take over the control", async function () {
+		await owned.setOwner(other, {from: other});
 		await owned.protected({from: other}).should.be.fulfilled;
 	});
 
