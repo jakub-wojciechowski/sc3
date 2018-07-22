@@ -8,12 +8,21 @@ contract SimpleOwnedWithModifier {
 
     address public owner;
 
-    function setOwner(address _owner) public {
+    modifier onlyOwner {
+        require(msg.sender == owner);
+        _;
+    }
+
+    constructor() public {
+        owner = msg.sender;
+    }
+
+    function setOwner(address _owner) public onlyOwner {
         owner = _owner;
     }
 
-    function protected() public view {
-        require(msg.sender == owner);
+    function protected() public view onlyOwner {
+
     }
 
 

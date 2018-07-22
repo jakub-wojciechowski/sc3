@@ -8,7 +8,7 @@ contract SimpleOwned {
 
     address public owner;
 
-    constructor() {
+    constructor() public {
         owner = msg.sender;
     }
 
