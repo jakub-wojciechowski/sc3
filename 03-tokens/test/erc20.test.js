@@ -13,7 +13,7 @@ contract('BasicERC20Token', function([owner, sender, receiver]) {
     (await token.name()).should.be.equal("SC3 Token");
   });
 
-  it("approve allow ", async function() {
+  it("approve and transfer", async function() {
     await token.mint(sender, 100, {from: owner});
     (await token.balanceOf(sender)).should.be.bignumber.equal(100);
 
